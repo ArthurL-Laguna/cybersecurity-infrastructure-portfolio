@@ -9,8 +9,8 @@ Development and deployment of an automated lifecycle and periodic rotation mecha
 
 ```mermaid
 graph TD
-    subgraph MECM Central Management
-        CI[Configuration Item / Discovery & Remediation Scripts] -->|Baseline Deployment| CB[Configuration Baseline Collection]
+    subgraph SCCM Central Management
+        CI[Configuration Item / Discovery & Remediation] -->|Baseline Deployment| CB[Configuration Baseline Collection]
     end
 
     subgraph Endpoint Execution (5000+ Workstations)
