@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <system.webServer>
+        <rewrite>
+            <rules>
+                <rule name="ARR_ReverseProxy_WebFarm" stopProcessing="true">
+                    <match url="(.*)" />
+                    <conditions>
+                        <add input="{HTTPS}" pattern="off" ignoreCase="true" />
+                    </conditions>
+                    <action type="Redirect" url="https://{HTTP_HOST}/{R:1}" redirectType="Permanent" />
+                </rule>
+                <rule name="ARR_LoadBalance_Rule" stopProcessing="true">
+                    <match url="(.*)" />
+                    <action type="Rewrite" url="http://WebFarmCluster/{R:1}" />
+                </rule>
+            </rules>
+        </rewrite>
+    </system.webServer>
+</configuration>
