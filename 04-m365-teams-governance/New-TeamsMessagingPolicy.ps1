@@ -1,0 +1,17 @@
+New-CsTeamsMessagingPolicy -Identity "Messaging Policy - Students - [Institution-Name]" `
+    -AllowUrlPreviews $true `
+    -AllowOwnerDeleteMessage $true `
+    -AllowUserEditMessage $true `
+    -AllowUserDeleteMessage $true `
+    -AllowUserChat $true `
+    -AllowRemoveUser $false `
+    -AllowGiphy $true `
+    -GiphyRatingType Strict `
+    -AllowMemes $true `
+    -AllowImmersiveReader $true `
+    -AllowStickers $true `
+    -AllowUserTranslation $true `
+    -ReadReceiptsEnabledType UserPreference `
+    -AllowPriorityMessages $true `
+    -ChannelsInChatListEnabledType DisabledUserOverride `
+    -AudioMessageEnabledType ChatsAndChannels
