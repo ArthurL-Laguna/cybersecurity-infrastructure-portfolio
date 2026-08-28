@@ -10,27 +10,20 @@ This repository contains the technical documentation, architecture specification
 
 The infrastructure is built on a 3-tier high-availability architecture utilizing Windows Server and IIS, deployed across virtualized environments.
 
-```text
-                  [ Internet ]
-                       │
-                       ▼
-         [https://app.domain.tld/Status](https://app.domain.tld/Status)
-                       │
-                       ▼
-          [ Edge Firewall / Routing ]
-                       │
-                       ▼
-         [ Load Balancer & Edge Proxy ]
-               (LB-Node-01)
-               IP: [LoadBalancer-IP]
-                       │
-         ┌─────────────┴─────────────┐
-         ▼                           ▼
-[ IIS Farm Node 01 ]        [ IIS Farm Node 02 ]
-    (FARM-Node-01)              (FARM-Node-02)
-   IP: [Node01-IP]             IP: [Node02-IP]
-         │                           │
-         └─────────────┬─────────────┘
-                       ▼
-             [ File Replication ]
-             (Synchronized Storage)
+```mermaid
+graph TD
+    subgraph Edge & Load Balancing Layer
+        Internet -->|HTTPS / TLS 1.2+| LBNode[Load Balancer & Edge Proxy / LB-Node-01]
+    end
+
+    subgraph Web Farm Backend Cluster
+        LBNode -->|Weighted Round-Robin / ARR / ARRAffinity| FarmNode1[IIS Farm Node 01 / FARM-Node-01]
+        LBNode -->|Weighted Round-Robin / ARR / ARRAffinity| FarmNode2[IIS Farm Node 02 / FARM-Node-02]
+    end
+
+    subgraph Synchronized Storage & Config Layer
+        LBNode -.->|SMB Shared Configuration| FarmNode1
+        LBNode -.->|SMB Shared Configuration| FarmNode2
+        FarmNode1 <-->|DFS Replication / D:\Dados| FarmNode2
+    end
+```
