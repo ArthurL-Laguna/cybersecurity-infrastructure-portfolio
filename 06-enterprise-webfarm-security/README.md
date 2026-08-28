@@ -12,19 +12,18 @@ graph TD
     Client[Internet / External Clients] -->|HTTPS / TLS 1.2+ Only| ARR[Edge Reverse Proxy / ARR Load Balancer]
     
     subgraph Edge Security & SSL Offloading
-        ARR -->|SSL Offloading / Health Probes| LB Logic{L4/L7 Traffic Distribution}
+        ARR -->|SSL Offloading / Health Probes| LBLogic[L4/L7 Traffic Distribution]
     end
 
     subgraph Internal Isolated Web Farm
-        LB Logic -->|HTTP / Weighted Round Robin| Web1[IIS Farm Node 01]
-        LB Logic -->|HTTP / Weighted Round Robin| Web2[IIS Farm Node 02]
+        LBLogic -->|HTTP / Weighted Round Robin| Web1[IIS Farm Node 01]
+        LBLogic -->|HTTP / Weighted Round Robin| Web2[IIS Farm Node 02]
     end
 
     subgraph Centralized Governance
         Web1 -.->|Read-Only Shared Config| Store[IIS Shared Configuration Repository]
         Web2 -.->|Read-Only Shared Config| Store
     end
-```
 ## Server Specifications & Inventory
 
 * **Load Balancer & Edge Proxy (`LB-Node-01`):** Reverse proxy, SSL/TLS termination point, and ARR load balancer equipped with 4 vCPUs, 8 GB RAM, and local storage for OS and edge configuration.
