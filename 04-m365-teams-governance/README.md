@@ -26,3 +26,20 @@ graph TD
         Session -->|Audit Logging| Log[Execution Timestamp & Log File]
     end
 ```
+## Scenario & Technical Solution
+* **The Challenge:** Large-scale educational institutions managing vast student user bases in Microsoft 365 required strict control over platform collaboration features. Unrestricted functionality allowed unauthorized private meetings, PSTN/external calling, and unmonitored app pinning. Manual GUI-based assignment for thousands of accounts distributed across multiple units and grades was operationally unfeasible, while conventional batch scripts frequently failed due to remote PowerShell session timeouts.
+* **Custom Security Policies (Hardening):** Created and parameterized specialized policies per school unit using the Microsoft Teams PowerShell module, establishing strict controls across Calling (`AllowPrivateCalling $false`, `AllowVoicemail AlwaysDisabled`), App Setup (`AllowUserPinning $false`), Messaging (`GiphyRatingType Strict`, `AllowRemoveUser $false`), and Meeting (`AllowChannelMeetingScheduling $false`, `AllowPrivateMeetingScheduling $false`, `AllowCloudRecording $false`).
+* **Granular Bulk Automation:** Developed advanced PowerShell automation routines filtering accounts via `Get-CsOnlineUser` based on explicit UPN patterns and departmental structures (e.g., `108-EF-1*`, `108-EM-1*`), complete with real-time timestamp logging and performance tracking.
+* **Session Resiliency Mechanics:** Embedded proactive PSSession management (`Get-PSSession | Remove-PSSession` followed by automatic connector re-initialization) directly into the execution flow to neutralize throttling and timeout constraints inherent in remote management modules.
+
+---
+
+## Repository Contents (Sanitized)
+* `docs/`: Governance architecture blueprints and compliance mapping documentation.
+* `src/Set-StudentTeamsPolicies.ps1`: Automated bulk deployment script for granular policy assignment.
+* `src/New-TeamsSecurityBaseline.ps1`: Parameter configuration templates for Calling, App Setup, Messaging, and Meeting baselines.
+* `src/Test-TeamsSessionResiliency.ps1`: Automated PSSession lifecycle handler and reconnection module.
+
+---
+
+*Disclaimer: All tenant identifiers, organization domains, user principal names, and structural naming conventions in this repository have been fully sanitized and anonymized.*
