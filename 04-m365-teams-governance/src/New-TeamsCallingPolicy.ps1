@@ -1,0 +1,12 @@
+New-CsTeamsCallingPolicy -Identity "Calling Policy - Students - [Institution-Name]" `
+    -AllowPrivateCalling $false `
+    -AllowWebPSTNCalling $false `
+    -AllowVoicemail AlwaysDisabled `
+    -AllowCallGroups $false `
+    -AllowDelegation $false `
+    -AllowCallForwardingToUser $false `
+    -AllowCallForwardingToPhone $false `
+    -PreventTollBypass $false `
+    -BusyOnBusyEnabledType Disabled `
+    -MusicOnHoldEnabledType Disabled `
+    -SafeTransferEnabled Disabled
