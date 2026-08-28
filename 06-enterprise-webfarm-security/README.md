@@ -24,6 +24,7 @@ graph TD
         Web1 -.->|Read-Only Shared Config| Store[IIS Shared Configuration Repository]
         Web2 -.->|Read-Only Shared Config| Store
     end
+```
 ## Server Specifications & Inventory
 
 * **Load Balancer & Edge Proxy (`LB-Node-01`):** Reverse proxy, SSL/TLS termination point, and ARR load balancer equipped with 4 vCPUs, 8 GB RAM, and local storage for OS and edge configuration.
