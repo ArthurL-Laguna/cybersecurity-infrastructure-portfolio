@@ -35,10 +35,13 @@ graph TD
 ---
 
 ## Repository Contents (Sanitized)
-* `docs/`: Governance architecture blueprints and compliance mapping documentation.
-* `src/Set-StudentTeamsPolicies.ps1`: Automated bulk deployment script for granular policy assignment.
-* `src/New-TeamsSecurityBaseline.ps1`: Parameter configuration templates for Calling, App Setup, Messaging, and Meeting baselines.
-* `src/Test-TeamsSessionResiliency.ps1`: Automated PSSession lifecycle handler and reconnection module.
+
+* `docs/` : Governance architecture blueprints and compliance mapping documentation.
+* `src/New-TeamsMessagingPolicy.ps1` : Messaging baseline configuration template for student security and permissions.
+* `src/New-TeamsMeetingPolicy.ps1` : Meeting baseline configuration template for restriction and collaboration settings.
+* `src/New-TeamsCallingPolicy.ps1` : Calling baseline configuration template for restricted student communication.
+* `src/New-TeamsAppSetupPolicy.ps1` : App setup baseline template for managing application pinning and access.
+* `src/Set-StudentTeamsPolicies.ps1` : Automated bulk deployment script for granular policy assignment by department and class groups.
 
 ---
 
