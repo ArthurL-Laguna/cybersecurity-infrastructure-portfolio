@@ -27,18 +27,27 @@ graph TD
 ```
 ## Server Specifications & Inventory
 
-* **Load Balancer & Edge Proxy (`LB-Node-01`):** Reverse proxy, SSL termination, and ARR load balancer[cite: 6] with 4 vCPUs, 8 GB RAM, and local disks for OS and configuration repository.
-* **Web Farm Node 01 (`FARM-Node-01`):** Primary backend application server[cite: 6] with 16 vCPUs, 8 GB RAM, and dedicated storage for application data and replication.
-* **Web Farm Node 02 (`FARM-Node-02`):** Secondary backend application server[cite: 6] mirroring `FARM-Node-01` to provide redundancy and continuous high availability.
+* **Load Balancer & Edge Proxy (`LB-Node-01`):** Reverse proxy, SSL/TLS termination point, and ARR load balancer equipped with 4 vCPUs, 8 GB RAM, and local storage for OS and edge configuration.
+* **Web Farm Node 01 (`FARM-Node-01`):** Primary backend application server operating in an isolated network segment, equipped with 16 vCPUs and 8 GB RAM.
+* **Web Farm Node 02 (`FARM-Node-02`):** Secondary backend application server operating in parallel to guarantee high availability and redundant traffic processing.
+
+---
+
+## Key Engineering Decisions & Hardening
+
+* **Perimeter Security & Backend Isolation:** Configured IIS ARR 3.0 as a single point of entry to hide internal topology and IP addresses of backend application nodes, drastically reducing direct attack surfaces.
+* **Cryptographic Offloading & TLS Hardening:** Centralized SSL/TLS processing at the edge layer to optimize backend CPU performance. Enforced TLS 1.2/1.3 and disabled legacy ciphers (SSLv3, TLS 1.0, 3DES) to protect against eavesdropping and protocol downgrade attacks.
+* **Health Probes & DoS Mitigation:** Implemented Layer 7 health monitoring probes to detect node degradation in real time, triggering automatic failover. Enforced connection timeouts and buffer threshold limits to contain malicious or incomplete requests.
+* **Session Integrity:** Applied secure cookie-based session stickiness (`ARRAffinity`) to maintain navigation state consistency while preventing session hijacking risks.
 
 ---
 
 ## Repository Contents (Sanitized)
-* `docs/`: Architecture diagrams and technical specification files.
-* `src/setup-arr-farm.ps1`: Automated PowerShell deployment script for configuring the ARR server farm.
-* `src/configure-replication.ps1`: Synchronization and file replication setup scripts.
-* `src/enable-shared-config.ps1`: Automation scripts for setting up centralized IIS shared configuration.
+* `docs/`: Network flow blueprints, threat models, and architectural specifications.
+* `src/setup-arr-farm.ps1`: Automated PowerShell deployment script for configuring the ARR reverse proxy server farm.
+* `src/configure-ssl-offloading.ps1`: Automation script for centralizing certificates, SSL offloading, and HTTP/HTTPS redirect rules.
+* `src/hardening-tls-ciphers.ps1`: Script for disabling deprecated SCHANNEL protocols and enforcing strong TLS 1.2/1.3 cipher suites.
 
 ---
 
-*Disclaimer: All IP addresses, server names, credentials, and domain identifiers in this repository have been fully sanitized and anonymized[cite: 6].*
+*Disclaimer: All IP addresses, server names, credentials, and domain identifiers in this repository have been fully sanitized and anonymized.*
