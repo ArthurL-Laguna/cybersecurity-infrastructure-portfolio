@@ -1,3 +1,14 @@
+# Automated Microsoft Teams Governance & Policy Enforcement
+
+## Overview
+* **Core Domains:** Cybersecurity, M365 Governance, PowerShell Automation, Identity & Access Management (Teams Admin).
+* **Project Focus:** Design and implementation of a scalable digital governance model and automated PowerShell batch assignment framework to enforce strict communication, meeting, and application security policies for thousands of students across educational institutions.
+
+---
+
+## Architecture & Compliance Workflow
+
+```mermaid
 graph TD
     subgraph M365 Central Admin
         CSV[Student Data Source / UPN List] -->|Script Ingestion| Filter[Filter Pipeline: Get-CsOnlineUser]
@@ -14,3 +25,4 @@ graph TD
         MEP -->|Session Timeout Check| Session[Proactive PSSession Reset & Reconnect]
         Session -->|Audit Logging| Log[Execution Timestamp & Log File]
     end
+```
