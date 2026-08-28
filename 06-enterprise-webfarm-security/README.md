@@ -1,7 +1,7 @@
-# 06-Enterprise WebFarm Security & High Availability
+# 06-Enterprise WebFarm Edge Security & SSL Offloading
 
 ## Executive Summary
-Design and implementation of a high-availability, secure enterprise web farm infrastructure using Microsoft Internet Information Services (IIS) and Application Request Routing (ARR)[cite: 6]. The architecture provides perimeter security, load balancing, centralized configuration management, and continuous file synchronization to guarantee high performance and data integrity[cite: 6].
+Design and implementation of a high-availability, secure enterprise web farm infrastructure focused on perimeter defense, TLS/SSL offloading, L4/L7 load balancing, and backend isolation using Microsoft Internet Information Services (IIS) and Application Request Routing (ARR). The architecture mitigates volumetric DoS vectors, eliminates single points of failure (SPOF), and enforces modern cryptographic standards without exposing internal application servers directly to the public internet.
 
 ---
 
@@ -9,17 +9,20 @@ Design and implementation of a high-availability, secure enterprise web farm inf
 
 ```mermaid
 graph TD
-    Client[Internet / External Clients] -->|HTTPS / TLS 1.2+| ARR[Reverse Proxy / ARR Load Balancer / LB-Node-01]
+    Client[Internet / External Clients] -->|HTTPS / TLS 1.2+ Only| ARR[Edge Reverse Proxy / ARR Load Balancer]
     
-    subgraph Web Farm Zone
-        ARR -->|Weighted Round Robin / ARRAffinity| Web1[IIS Farm Node 01 / FARM-Node-01]
-        ARR -->|Weighted Round Robin / ARRAffinity| Web2[IIS Farm Node 02 / FARM-Node-02]
-        Web1 <-->|File Replication / D:\Dados| Web2
+    subgraph Edge Security & SSL Offloading
+        ARR -->|SSL Offloading / Health Probes| LB Logic{L4/L7 Traffic Distribution}
     end
 
-    subgraph Config & Storage Layer
-        Web1 -.->|SMB Shared Configuration| ARR
-        Web2 -.->|SMB Shared Configuration| ARR
+    subgraph Internal Isolated Web Farm
+        LB Logic -->|HTTP / Weighted Round Robin| Web1[IIS Farm Node 01]
+        LB Logic -->|HTTP / Weighted Round Robin| Web2[IIS Farm Node 02]
+    end
+
+    subgraph Centralized Governance
+        Web1 -.->|Read-Only Shared Config| Store[IIS Shared Configuration Repository]
+        Web2 -.->|Read-Only Shared Config| Store
     end
 ```
 ## Server Specifications & Inventory
