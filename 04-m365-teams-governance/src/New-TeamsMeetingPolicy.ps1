@@ -1,0 +1,26 @@
+New-CsTeamsMeetingPolicy -Identity "Meeting Policy - Students - [Institution-Name]" `
+    -AllowChannelMeetingScheduling $false `
+    -AllowMeetNow $false `
+    -AllowPrivateMeetNow $true `
+    -MeetingChatEnabledType Enabled `
+    -LiveCaptionsEnabledType DisabledUserOverride `
+    -AllowIPAudio $true `
+    -AllowIPVideo $true `
+    -IPAudioMode EnabledOutgoingIncoming `
+    -IPVideoMode EnabledOutgoingIncoming `
+    -AllowPrivateMeetingScheduling $false `
+    -AutoAdmittedUsers EveryoneInCompany `
+    -AllowCloudRecording $false `
+    -AllowOutlookAddIn $false `
+    -AllowPowerPointSharing $true `
+    -AllowParticipantGiveRequestControl $true `
+    -AllowExternalParticipantGiveRequestControl $true `
+    -AllowSharedNotes $true `
+    -AllowWhiteboard $true `
+    -AllowTranscription $true `
+    -MediaBitRateKb 50000 `
+    -ScreenSharingMode EntireScreen `
+    -VideoFiltersMode NoFilters `
+    -AllowPSTNUsersToBypassLobby $true `
+    -AllowOrganizersToOverrideLobbySettings $true `
+    -PreferredMeetingProviderForIslandsMode Teams
